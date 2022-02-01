@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Renderer</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <div id="app">
+      <h1>{{title}}</h1>
+
+      <ul>
+        <li>Should render \`null\`: {{is_null}}</li>
+        <li>Should simple \`string\` value: {{discription}}</li>
+        <li>Should't render unexisting prop: {{no_such_prop}}</li>
+        <li>Should't render prop with \`undefined\` value: {{undef}}</li>
+      </ul>
+
+      <div class="user">
+        <p class="name">{{firstName}} [{{email}}]</p>
+        <p class="username">
+          {{firstName}} {{secondName}} is {{age}} years old.
+        </p>
+        <p class="phone">Phone: {{phoneNumber}}</p>
+        <p class="parents">Parents: {{parents[0]}}</p>
+        <p class="address">Address: {{address.town}}</p>
+        <p class="notes">Notes:</p>
+        <p class="notes">- {{notes[0].text}}</p>
+        <p class="notes">- {{notes[1].text}}</p>
+        <p class="text">Should not be escaped {{}} {{ }} {{ }}</p>
+      </div>
+
+      <div data-dom="notification" his-data="notification[0].text">
+        <p>{{message}}</p>
+        <div data-dom="spiner"></div>
+      </div>
+
+      <div data-dom="notification">
+        <p>{{description}}</p>
+      </div>
+
+      <hr />
+
+      <h2>Iterator demonstration</h2>
+      <div data-dom="iterator" his-data="users">
+        <div data-dom="notification">
+          <p>{{greetings}}</p>
+          <div data-dom="spiner"></div>
+        </div>
+        <hr />
+      </div>
+
+      <h2>Iterator demonstration 2</h2>
+      <ul>
+        <li data-dom="iterator" his-data="users">
+          <p>{{name}}</p>
+          <div data-dom="notification" his-data="group">
+            <p>{{titles}}</p>
+            <div data-dom="spiner"></div>
+          </div>
+        </li>
+      </ul>
+
+      <div data-dom="test"></div>
+    </div>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
