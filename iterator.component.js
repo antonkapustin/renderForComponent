@@ -11,12 +11,11 @@ export class List {
   render() {
     for (let index of this.data) {
       const temp = document.createElement("div");
-      temp.innerHTML = render.renderToDom(index, this.template);
+      temp.innerHTML = this.template;
       [].forEach.call(temp.children, (element, i) => {
         element.innerHTML = render.renderToDom(index, element.innerHTML);
         render.switchImports(index, element);
       });
-
       while (temp.childNodes.length > 0) {
         this.hostElement.parentNode.insertBefore(
           temp.childNodes[0],
