@@ -14,7 +14,7 @@ export class List {
       temp.innerHTML = this.template;
       [].forEach.call(temp.children, (element, i) => {
         element.innerHTML = render.renderToDom(index, element.innerHTML);
-        render.switchImports(index, element);
+        // render.switchImports(index, element);
       });
       while (temp.childNodes.length > 0) {
         this.hostElement.parentNode.insertBefore(

@@ -4,20 +4,27 @@ export const renderToDom = (data, template) => {
   temp.innerHTML = template;
   let a = temp.querySelectorAll("[data-dom]:not([data-dom] [data-dom])");
 
+  let matchChildren = [];
+
   a.forEach((el) => {
     // TODO improve!
-    let element = el.querySelectorAll("[data-dom]");
+    let element = el.querySelectorAll(
+      "[data-dom]:not([data-dom] [data-dom]) > [data-dom]"
+    );
 
     element.forEach((elem) => {
-      let attrValue = elem.getAttribute("data-dom");
-      elem.removeAttribute("data-dom");
-      elem.setAttribute("data-temp-dom", attrValue);
-
-      elem.innerHTML = elem.innerHTML.replace(/\{\{/g, "[[");
+      matchChildren.push(elem.outerHTML);
+      elem.outerHTML = "[[here]]";
+      // let attrValue = elem.getAttribute("data-dom");
+      // elem.removeAttribute("data-dom");
+      // elem.setAttribute("data-temp-dom", attrValue);
+      // elem.innerHTML = elem.innerHTML.replace(/\{\{/g, "[[");
     });
   });
   template = temp.innerHTML;
+  console.log(template);
 
+  const matchDiv = template.match(/\[\[here\]\]/gi) || [];
   const matchMarkers = template.match(/{{\w.+?}}/gi) || [];
   const matchKeys = template.match(/(?<={{)\w.+?(?=}})/gi) || [];
 
@@ -44,10 +51,12 @@ export const renderToDom = (data, template) => {
 
     result = result.replace(element, value);
   });
-  console.log(result);
 
-  result = result.replace(/\[\[/g, "{{");
-  result = result.replace(/data-temp-dom/g, "data-dom");
+  // result = result.replace(/\[\[/g, "{{");
+  // result = result.replace(/data-temp-dom/g, "data-dom");
+  matchDiv.forEach((el, i) => {
+    result = result.replace(el, matchChildren[i]);
+  });
 
   return result;
 };
