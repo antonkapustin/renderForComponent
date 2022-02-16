@@ -12,6 +12,7 @@ export class List {
     for (let index of this.data) {
       const temp = document.createElement("div");
       temp.innerHTML = this.template;
+      // console.log(temp.innerHTML);
       [].forEach.call(temp.children, (element, i) => {
         element.innerHTML = render.renderToDom(index, element.innerHTML);
         // render.switchImports(index, element);

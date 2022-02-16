@@ -57,7 +57,7 @@ class App {
   constructor(hostElement) {
     this.template = hostElement.innerHTML;
     hostElement.innerHTML = render.renderToDom(this.data, this.template);
-    render.switchImports(this.data, hostElement);
+    // render.switchImports(this.data, hostElement);
   }
 }
 

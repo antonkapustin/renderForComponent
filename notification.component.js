@@ -8,7 +8,8 @@ export class Notification {
     this.render();
   }
   render() {
+    // console.log(this.template);
     this.hostElement.innerHTML = render.renderToDom(this.data, this.template);
-    render.switchImports(this.data, this.hostElement);
+    // render.switchImports(this.data, this.hostElement);
   }
 }

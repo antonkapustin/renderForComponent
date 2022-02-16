@@ -25,6 +25,6 @@ export class Test {
 
   render() {
     this.hostElement.innerHTML = render.renderToDom(this.data, this.template);
-    render.switchImports(this.data, this.hostElement);
+    // render.switchImports(this.data, this.hostElement);
   }
 }
