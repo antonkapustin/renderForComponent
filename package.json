@@ -1,0 +1,23 @@
+{
+  "name": "renderforcomponent",
+  "version": "1.0.0",
+  "description": "was created as utillit for easer and faster render",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "browser-sync start --server --files index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonkapustin/renderForComponent.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/antonkapustin/renderForComponent/issues"
+  },
+  "homepage": "https://github.com/antonkapustin/renderForComponent#readme",
+  "devDependencies": {
+    "browser-sync": "^2.27.7"
+  }
+}

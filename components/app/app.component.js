@@ -1,6 +1,6 @@
-import * as render from "./renderToTheDom.js";
+import { RenderDOM } from "../../utils/RenderDOM.js";
 
-class App {
+export class App {
   data = {
     title: "Renderer",
     notification: [
@@ -52,13 +52,15 @@ class App {
     is_null: null,
     undef: undefined,
   };
+
   template = "";
 
   constructor(hostElement) {
+    this.hostElement = hostElement;
     this.template = hostElement.innerHTML;
-    hostElement.innerHTML = render.renderToDom(this.data, this.template);
-    // render.switchImports(this.data, hostElement);
+  }
+
+  async render() {
+    this.hostElement.innerHTML = await RenderDOM(this.data, this.template);
   }
 }
-
-new App(document.querySelector("#app"));

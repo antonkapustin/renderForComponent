@@ -1,2 +1,3 @@
 # renderForComponent
-was created as utuillit for easer and faster render
+
+was created as utillit for easer and faster render

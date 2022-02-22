@@ -1,5 +1,4 @@
-export const renderToDom = (data, template) => {
-  const originalTemplate = template;
+export const RenderDOM = async (data, template) => {
   const temp = document.createElement("div");
   temp.innerHTML = template;
   let a = temp.querySelectorAll("[data-dom]:not([data-dom] [data-dom])");
@@ -12,6 +11,7 @@ export const renderToDom = (data, template) => {
     let element = el.querySelectorAll(
       "[data-dom]:not([data-dom] [data-dom]) > [data-dom]"
     );
+    // let element = el.querySelectorAll("[data-dom]");
 
     element.forEach((elem) => {
       matchChildren.push(elem.outerHTML);
@@ -64,78 +64,29 @@ export const renderToDom = (data, template) => {
 
   temp.innerHTML = result;
 
-  if (attrName) {
-    attrName.forEach(async (element) => {
+  if (attrName.length) {
+    for (let i = 0; i < attrName.length; i++) {
+      let element = attrName[i];
       const hosts = temp.querySelectorAll(`[data-dom="${element}"]`);
-      const module = await import(`./${element}.component.js`);
+      const module = await import(
+        `./../components/${element}/${element}.component.js`
+      );
       const name = Object.keys(module)[0];
+      for (let j = 0; j < hosts.length; j++) {
+        const host = hosts[j];
 
-      hosts.forEach((host) => {
         const hisData = host.getAttribute("his-data");
         let value;
-
         if (hisData) {
           const keys = hisData.replace("[", ".").replace("]", "").split(".");
           value = keys.reduce((sum, curr) => {
             return sum[curr];
           }, data);
         }
-        new module[name](value || data, host);
-      });
-    });
+        const inst = new module[name](value || data, host);
+        await inst.render();
+      }
+    }
   }
-  console.log(temp);
-
-  return result;
+  return temp.innerHTML;
 };
-
-export const switchImports = (data, container) => {
-  let matchDataDom =
-    container.innerHTML.match(/(?<=data-dom="| ?<= \,)\w.+?(?=")/gi) || [];
-
-  // filter unique values
-  matchDataDom = [...new Set(matchDataDom)];
-
-  if (matchDataDom) {
-    matchDataDom.forEach(async (element) => {
-      const hosts = container.querySelectorAll(`[data-dom="${element}"]`);
-
-      console.log(hosts);
-      const module = await import(`./${element}.component.js`);
-      const name = Object.keys(module)[0];
-
-      hosts.forEach((host) => {
-        const hisData = host.getAttribute("his-data");
-        let value;
-
-        if (hisData) {
-          const keys = hisData.replace("[", ".").replace("]", "").split(".");
-          value = keys.reduce((sum, curr) => {
-            return sum[curr];
-          }, data);
-        }
-        new module[name](value || data, host);
-      });
-    });
-  }
-};
-
-// export const iterator = (data, hostElement) => {
-//   let template = hostElement.outerHTML;
-//   let arr = [];
-//   for (let index of data) {
-//     const temp = document.createElement("div");
-//     temp.innerHTML = renderToDom(index, template);
-
-//     [].forEach.call(temp.children, (element) => {
-//       switchImports(index, element);
-//       arr = [...arr, ...temp.children];
-//     });
-
-//     while (temp.childNodes.length > 0) {
-//       hostElement.parentNode.insertBefore(temp.childNodes[0], hostElement);
-//     }
-//   }
-//   hostElement.remove();
-//   return arr;
-// };

@@ -1,4 +1,4 @@
-import * as render from "./renderToTheDom.js";
+import { RenderDOM } from "../../utils/RenderDOM.js";
 
 export class Test {
   constructor(data, hostElement) {
@@ -19,12 +19,9 @@ export class Test {
       <h2>Should display \`{{phoneNumber}}\` in next two rows</h2>
       <div data-dom="iterator" his-data="notes"> {{phoneNumber}} I have sub components {{text}}</div>
     `;
-
-    this.render();
   }
 
-  render() {
-    this.hostElement.innerHTML = render.renderToDom(this.data, this.template);
-    // render.switchImports(this.data, this.hostElement);
+  async render() {
+    this.hostElement.innerHTML = await RenderDOM(this.data, this.template);
   }
 }
