@@ -18,8 +18,10 @@
       </ul>
 
       <div class="user">
-        <p class="name">{{firstName}} [{{email}}]</p>
-        <p class="username">{{firstName}} {{secondName}} is {{age}} years old.</p>
+        <p class="name" data-test="false">{{firstName}} [{{email}}]</p>
+        <p class="username">
+          {{firstName}} {{secondName}} is {{age}} years old.
+        </p>
         <p class="phone">Phone: {{phoneNumber}}</p>
         <p class="parents">Parents: {{parents[0]}}</p>
         <p class="address">Address: {{address.town}}</p>
@@ -29,7 +31,11 @@
         <p class="text">Should not be escaped {{}} {{ }} {{ }}</p>
       </div>
 
-      <div data-dom="notification" his-data="notification[0].text">
+      <div
+        data-dom="notification"
+        his-data="notification[0].text"
+        data-test="true"
+      >
         <p>{{message}}</p>
         <div data-dom="spiner"></div>
       </div>
@@ -41,10 +47,10 @@
       <hr />
 
       <h2>Iterator demonstration</h2>
-      <div data-dom="iterator" his-data="users">
+      <div data-dom="iterator" his-data="users" data-test="true">
         <div data-dom="notification">
           <p>{{greetings}}</p>
-          <div data-dom="spiner"></div>
+          <div data-dom="spiner" data-test="false"></div>
         </div>
         <hr />
       </div>
@@ -53,7 +59,7 @@
       <ul>
         <li data-dom="iterator" his-data="users">
           <p>{{name}}</p>
-          <div data-dom="notification" his-data="group">
+          <div data-dom="notification" his-data="group" data-test="false">
             <p>{{titles}}</p>
             <div data-dom="spiner"></div>
           </div>

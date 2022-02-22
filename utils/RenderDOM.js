@@ -1,13 +1,21 @@
 export const RenderDOM = async (data, template) => {
   const temp = document.createElement("div");
   temp.innerHTML = template;
+
+  const test = temp.querySelectorAll("[data-test]");
+
+  test.forEach((el) => {
+    if (el.getAttribute("data-test") === "false") {
+      el.outerHTML = `<!--${el.outerHTML} -->`;
+    }
+  });
+
   let a = temp.querySelectorAll("[data-dom]:not([data-dom] [data-dom])");
 
   let matchChildren = [];
   let attrName = [];
 
   a.forEach((el) => {
-    // TODO improve!
     let element = el.querySelectorAll(
       "[data-dom]:not([data-dom] [data-dom]) > [data-dom]"
     );
@@ -67,7 +75,9 @@ export const RenderDOM = async (data, template) => {
   if (attrName.length) {
     for (let i = 0; i < attrName.length; i++) {
       let element = attrName[i];
-      const hosts = temp.querySelectorAll(`[data-dom="${element}"]`);
+      const hosts = temp.querySelectorAll(
+        `[data-dom="${element}"]:not([data-dom] [data-dom])`
+      );
       const module = await import(
         `./../components/${element}/${element}.component.js`
       );

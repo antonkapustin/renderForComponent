@@ -16,7 +16,10 @@ export class List {
         element.innerHTML = await RenderDOM(index, element.innerHTML);
       }
       while (temp.childNodes.length > 0) {
-        this.hostElement.parentNode.insertBefore(temp.childNodes[0], this.hostElement);
+        this.hostElement.parentNode.insertBefore(
+          temp.childNodes[0],
+          this.hostElement
+        );
       }
     }
     this.hostElement.remove();
