@@ -1,15 +1,6 @@
 export const RenderDOM = async (data, template) => {
   const temp = document.createElement("div");
   temp.innerHTML = template;
-
-  const test = temp.querySelectorAll("[data-test]");
-
-  test.forEach((el) => {
-    if (el.getAttribute("data-test") === "false") {
-      el.outerHTML = `<!--${el.outerHTML} -->`;
-    }
-  });
-
   let a = temp.querySelectorAll("[data-dom]:not([data-dom] [data-dom])");
 
   let matchChildren = [];
@@ -75,9 +66,7 @@ export const RenderDOM = async (data, template) => {
   if (attrName.length) {
     for (let i = 0; i < attrName.length; i++) {
       let element = attrName[i];
-      const hosts = temp.querySelectorAll(
-        `[data-dom="${element}"]:not([data-dom] [data-dom])`
-      );
+      const hosts = temp.querySelectorAll(`[data-dom="${element}"]`);
       const module = await import(
         `./../components/${element}/${element}.component.js`
       );
@@ -93,8 +82,25 @@ export const RenderDOM = async (data, template) => {
             return sum[curr];
           }, data);
         }
-        const inst = new module[name](value || data, host);
-        await inst.render();
+
+        if (host.hasAttribute("data-if")) {
+          const option = host.getAttribute("data-if");
+          if (!data[option]) {
+            host.setAttribute("data-dom-false", host.getAttribute("data-dom"));
+            host.removeAttribute("data-dom");
+          } else {
+            if (host.hasAttribute("data-dom-false")) {
+              host.setAttribute(
+                "data-dom",
+                host.getAttribute("data-dom-false")
+              );
+              host.removeAttribute("data-dom-false");
+            }
+          }
+        } else {
+          const inst = new module[name](value || data, host);
+          await inst.render();
+        }
       }
     }
   }

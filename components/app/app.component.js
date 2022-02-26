@@ -1,6 +1,8 @@
 import { RenderDOM } from "../../utils/RenderDOM.js";
+import { Router } from "../../utils/router.js";
 
 export class App {
+  router = new Router([]);
   data = {
     title: "Renderer",
     notification: [
@@ -53,14 +55,31 @@ export class App {
     undef: undefined,
   };
 
-  template = "";
+  template = `
+  <header data-dom="header"></header>
+  `;
 
   constructor(hostElement) {
     this.hostElement = hostElement;
-    this.template = hostElement.innerHTML;
+    // this.template = hostElement.innerHTML;
   }
 
   async render() {
     this.hostElement.innerHTML = await RenderDOM(this.data, this.template);
+    const routerOutlet = document.querySelector("[data-router-outlet]");
+
+    console.log(routerOutlet);
+    this.router.add("Home", () => {
+      routerOutlet.innerHTML = "";
+      import("../home/home.component.js").then(({ Home }) => {
+        new Home(this.data, routerOutlet).render();
+      });
+    });
+    this.router.add("About", () => {
+      routerOutlet.innerHTML = "";
+      import("../about/about.component.js").then(({ About }) => {
+        new About(this.data, routerOutlet).render();
+      });
+    });
   }
 }

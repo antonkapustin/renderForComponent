@@ -4,7 +4,12 @@ export class Notification {
   constructor(data, hostElement) {
     this.data = data;
     this.hostElement = hostElement;
-    this.template = this.hostElement.innerHTML;
+    this.template = this.template = `
+    <nav>
+      <a href="#home" name="home">Home</a>
+      <a href="#about" name="about">About</a>
+    </nav>
+  `;
   }
 
   async render() {
