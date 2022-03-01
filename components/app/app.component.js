@@ -68,7 +68,6 @@ export class App {
     this.hostElement.innerHTML = await RenderDOM(this.data, this.template);
     const routerOutlet = document.querySelector("[data-router-outlet]");
 
-    console.log(routerOutlet);
     this.router.add("Home", () => {
       routerOutlet.innerHTML = "";
       import("../home/home.component.js").then(({ Home }) => {
